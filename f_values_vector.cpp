@@ -7,7 +7,7 @@ int main() {
     resout.open("results.txt");
 
     int t = 1;
-    double G = 0.05;
+    double G = 0.001;
     int T_max = 100;
     double x = 0;
 
