@@ -37,7 +37,7 @@ public:
 
 
 
-class Scheme: public CIR {
+class Scheme : public CIR {
     double t; // time step length
     int T; //quantity of time steps
     double h; //coord step length
@@ -46,10 +46,10 @@ class Scheme: public CIR {
 
 public:
 
-    Scheme(int param_N, int param_T) : CIR (param_N){
+    Scheme(int param_N, int param_T) : CIR(param_N) {
         N = param_N;
         T = param_T;
-        h = (double)1 / N;
+        h = 1 / (double)N;
         t = 0.5 * h / c;				// ct/h < 1, c = 1
     }
 
@@ -78,13 +78,15 @@ public:
                 double res = prev[j] - c * t / h * (prev[j] - prev[j - 1]);
                 pres.push_back(res);
             }
+        
+            //present_output(); if we want to get every timestep result
         }
-        present_output();
+        
     }
 
 
     void get_result() {
-        for(int i = 0; i < pres.size(); ++i) {
+        for (int i = 0; i < pres.size(); ++i) {
             cout << pres[i] << " ";
         }
     }
@@ -98,18 +100,18 @@ public:
 
 
 int main() {
-    int N = 2000;
-    int T = 600;
+    int N = 500;
+    int T = 250;
 
 
     vector<double>initial;
 
     for (int i = 0; i < N; ++i) {
         if ((i > 0.2 * N) and (i < 0.4 * N)) {
-            initial.push_back(0);
+            initial.push_back(1);
         }
         else {
-            initial.push_back(1);
+            initial.push_back(0);
         }
     }
 
@@ -120,6 +122,6 @@ int main() {
 
     Scheme scheme(N, T);
     scheme.get_solve(initial);
-
+    scheme.present_output(); // get only last timestep result;
 
 }
